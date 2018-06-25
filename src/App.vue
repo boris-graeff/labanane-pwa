@@ -5,5 +5,5 @@
 </template>
 
 <style>
-
+  @import '~@/styles/reset.css';
 </style>
