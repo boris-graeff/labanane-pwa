@@ -1,18 +1,35 @@
 <template>
-  <div class="home">
-    <img src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div class="home">
+        <app-list>
+            <li v-for="playlist in playlists" :key="playlist.id">
+                <router-link :to="{name: 'playlist', params: { playlistId: playlist.id }}">
+                    {{ playlist.name }}
+                </router-link>
+            </li>
+        </app-list>
+    </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapState, mapActions } from 'vuex'
+import AppList from '@/components/AppList'
 
 export default {
-  name: 'home',
+  mounted () {
+    this.getAllPlaylists()
+  },
+  computed: {
+    ...mapState('playlists', {
+      playlists: ({ playlists }) => playlists
+    })
+  },
+  methods: {
+    ...mapActions('playlists', {
+      getAllPlaylists: 'getAll'
+    })
+  },
   components: {
-    HelloWorld
+    AppList
   }
 }
 </script>
