@@ -10,7 +10,6 @@ export default {
 
   mutations: {
     [SET_PLAYLISTS] (state, playlists) {
-      console.log('toto')
       state.playlists = playlists
     }
   },
@@ -18,7 +17,6 @@ export default {
   actions: {
     async getAll (store) {
       const playlists = await getAllPlaylists()
-      console.log('tata')
       store.commit(SET_PLAYLISTS, playlists)
     }
   }
