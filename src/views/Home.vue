@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        <app-player />
         <app-list>
             <li v-for="playlist in playlists" :key="playlist.id">
                 <router-link :to="{name: 'playlist', params: { playlistId: playlist.id }}">
@@ -13,6 +14,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import AppList from '@/components/AppList'
+import AppPlayer from '@/components/AppPlayer'
 
 export default {
   mounted () {
@@ -29,7 +31,8 @@ export default {
     })
   },
   components: {
-    AppList
+    AppList,
+    AppPlayer
   }
 }
 </script>

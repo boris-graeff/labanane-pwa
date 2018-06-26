@@ -1,7 +1,9 @@
 <template>
   <div class="playlist">
     <app-list>
-      <li v-for="track in playlist.tracks" :key="track.id">
+      <li v-for="track in playlist.tracks"
+          :key="track.id"
+          @click="() => setTrack(track)">
         {{ track.name }}
       </li>
     </app-list>
@@ -25,6 +27,9 @@ export default {
   methods: {
     ...mapActions('playlist', {
       getPlaylist: 'getPlaylist'
+    }),
+    ...mapActions('track', {
+      setTrack: 'setTrack'
     })
   },
   components: {
