@@ -1,16 +1,21 @@
+import { getTrackUrl as getSoundcloudUrl } from '@/api/soundcloud'
+import { getTrackUrl as getYoutubeUrl } from '@/api/youtube'
+
 const SET_TRACK_INFOS = 'SET_TRACK_INFOS'
 
 export default {
   namespaced: true,
   state: {
     infos: {
-      id: 'id'
+      id: ''
     }
   },
 
   mutations: {
     [SET_TRACK_INFOS] (state, track) {
-      state.infos = track
+      const { provider, providerId } = track
+      const url = provider === 'youtube' ? getYoutubeUrl(providerId) : getSoundcloudUrl(providerId)
+      state.infos = { ...track, url }
     }
   },
 

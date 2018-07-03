@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'list'
+
 }
 </script>
 
@@ -32,6 +32,10 @@ export default {
               padding: 0 6px;
               display: block;
             }
+
+          &.selected {
+            background-color: $wheat;
+          }
         }
     }
 </style>

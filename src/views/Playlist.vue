@@ -3,8 +3,9 @@
     <app-list>
       <li v-for="track in playlist.tracks"
           :key="track.id"
+          :class="{selected: track.id === currentTrack.id}"
           @click="() => setTrack(track)">
-        {{ track.name }}
+        {{ track.name }} - {{ track.provider }}
       </li>
     </app-list>
   </div>
@@ -22,6 +23,9 @@ export default {
   computed: {
     ...mapState('playlist', {
       playlist: ({ playlist }) => playlist
+    }),
+    ...mapState('track', {
+      currentTrack: ({ infos }) => infos
     })
   },
   methods: {
