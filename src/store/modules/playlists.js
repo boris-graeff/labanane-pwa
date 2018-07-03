@@ -15,9 +15,9 @@ export default {
   },
 
   actions: {
-    async getAll (store) {
+    async getAll ({ commit }) {
       const playlists = await getAllPlaylists()
-      store.commit(SET_PLAYLISTS, playlists)
+      commit(SET_PLAYLISTS, playlists)
     }
   }
 }

@@ -5,16 +5,16 @@
                   @timeupdate="onTimeUpdate"
                   @ended="onEnded" />
     <div class="controls">
-      <button type="button" @click="previous">Previous</button>
+      <button type="button" @click="setPreviousTrack">Previous</button>
       <button type="button" @click="play">Play</button>
-      <button type="button" @click="next">Next</button>
+      <button type="button" @click="setNextTrack">Next</button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import AudioPlayer from './AudioPlayer';
+import { mapState, mapActions } from 'vuex'
+import AudioPlayer from './AudioPlayer'
 
 export default {
   data () {
@@ -30,10 +30,10 @@ export default {
   mounted () {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.playbackState = 'paused'
-      navigator.mediaSession.setActionHandler('previoustrack', () => {})
+      navigator.mediaSession.setActionHandler('previoustrack', this.setPreviousTrack)
       navigator.mediaSession.setActionHandler('play', () => {})
       navigator.mediaSession.setActionHandler('pause', () => {})
-      navigator.mediaSession.setActionHandler('nexttrack', () => {})
+      navigator.mediaSession.setActionHandler('nexttrack', this.setNextTrack)
     }
   },
   watch: {
@@ -53,18 +53,16 @@ export default {
     pause () {
       console.log('pause')
     },
-    next () {
-      console.log('next')
-    },
-    previous () {
-      console.log('previous')
-    },
     onTimeUpdate () {
       console.log('on time update')
     },
     onEnded () {
       this.next()
-    }
+    },
+    ...mapActions('track', {
+      setNextTrack: 'setNextTrack',
+      setPreviousTrack: 'setPreviousTrack'
+    })
   },
   components: {
     AudioPlayer
