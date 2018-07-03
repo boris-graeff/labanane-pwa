@@ -1,17 +1,27 @@
 <template>
   <div class="player">
     {{ track.name }}
-    <soundcloud-player :track="track.provider === 'soundcloud' && track"/>
-    <youtube-player :track="track.provider === 'youtube' && track"/>
+    <audio-player ref="player"
+                  @timeupdate="onTimeUpdate"
+                  @ended="onEnded" />
+    <div class="controls">
+      <button type="button" @click="previous">Previous</button>
+      <button type="button" @click="play">Play</button>
+      <button type="button" @click="next">Next</button>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import SoundcloudPlayer from './SoundcloudPlayer'
-import YoutubePlayer from './YoutubePlayer'
+import AudioPlayer from './AudioPlayer';
 
 export default {
+  data () {
+    return {
+      player: null
+    }
+  },
   computed: {
     ...mapState('track', {
       track: ({ infos }) => infos
@@ -26,20 +36,38 @@ export default {
       navigator.mediaSession.setActionHandler('nexttrack', () => {})
     }
   },
-  methods: {
-    handleNewTrack () {
+  watch: {
+    track () {
       if ('mediaSession' in navigator) {
         // eslint-disable-next-line
         navigator.mediaSession.metadata = new MediaMetadata({
-          title: 'titre',
-          artist: 'artiste'
+          title: this.track.name
         })
       }
     }
   },
+  methods: {
+    play () {
+      this.$refs.player.play()
+    },
+    pause () {
+      console.log('pause')
+    },
+    next () {
+      console.log('next')
+    },
+    previous () {
+      console.log('previous')
+    },
+    onTimeUpdate () {
+      console.log('on time update')
+    },
+    onEnded () {
+      this.next()
+    }
+  },
   components: {
-    YoutubePlayer,
-    SoundcloudPlayer
+    AudioPlayer
   }
 }
 </script>
@@ -56,5 +84,6 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 1000;
   }
 </style>
