@@ -20,8 +20,14 @@ export default {
   },
 
   actions: {
-    async setTrack (store, track) {
-      store.commit(SET_TRACK_INFOS, track)
+    async setTrack ({ commit }, track) {
+      commit(SET_TRACK_INFOS, track)
+    },
+
+    setNextTrack (store) {
+      const isShuffleMode = false
+      const nextTrack = store.rootGetters['playlist/getNextTrack'](store.state.infos, isShuffleMode)
+      store.commit(SET_TRACK_INFOS, nextTrack)
     }
   }
 }
