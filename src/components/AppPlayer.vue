@@ -1,13 +1,22 @@
 <template>
   <div class="player">
-    {{ track.name }}
     <audio-player ref="player"
                   @timeupdate="onTimeUpdate"
                   @ended="onEnded" />
-    <div class="controls">
-      <button type="button" @click="setPreviousTrack">Previous</button>
-      <button type="button" @click="play">Play</button>
-      <button type="button" @click="setNextTrack">Next</button>
+
+    <track-progress :duration="track.duration"
+                    :currentTime="currentTime"
+                    @seekTo="seekTo"/>
+    <div>
+      <div>{{ track.name }}</div>
+
+      <div class="controls">
+        <button type="button" @click="setPreviousTrack(isShuffleMode)">Previous</button>
+        <button type="button" v-show="isPlaying" @click="pause">Pause</button>
+        <button type="button" v-show="!isPlaying" @click="play">Play</button>
+        <button type="button" @click="setNextTrack(isShuffleMode)">Next</button>
+        <button type="button" @click="isShuffleMode = !isShuffleMode">Shuffle mode</button>
+      </div>
     </div>
   </div>
 </template>
@@ -15,11 +24,14 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import AudioPlayer from './AudioPlayer'
+import TrackProgress from './TrackProgress'
 
 export default {
   data () {
     return {
-      player: null
+      isShuffleMode: false,
+      isPlaying: false,
+      currentTime: 0
     }
   },
   computed: {
@@ -48,16 +60,21 @@ export default {
   },
   methods: {
     play () {
+      this.isPlaying = true
       this.$refs.player.play()
     },
     pause () {
-      console.log('pause')
+      this.isPlaying = false
+      this.$refs.player.pause()
     },
-    onTimeUpdate () {
-      console.log('on time update')
+    onTimeUpdate (currentTime) {
+      this.currentTime = currentTime
     },
     onEnded () {
       this.next()
+    },
+    seekTo (value) {
+      console.log('seek to', value)
     },
     ...mapActions('track', {
       setNextTrack: 'setNextTrack',
@@ -65,6 +82,7 @@ export default {
     })
   },
   components: {
+    TrackProgress,
     AudioPlayer
   }
 }
@@ -83,5 +101,10 @@ export default {
     right: 0;
     bottom: 0;
     z-index: 1000;
+
+    > div:last-child {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 </style>
