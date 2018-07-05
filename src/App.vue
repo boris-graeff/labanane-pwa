@@ -23,6 +23,8 @@ export default {
 
 <style>
   @import '~@/styles/reset.css';
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
+
 </style>
 
 <style scoped lang="scss">
@@ -30,6 +32,7 @@ export default {
 
   .app {
     min-height: 100vh;
+    font-family: 'Roboto Condensed', sans-serif;
 
     &:before {
       content: '';

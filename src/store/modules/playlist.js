@@ -49,6 +49,10 @@ export default {
 
       const currentIndex = getCurrentIndex(playlist, currentTrack.id)
       return playlist.tracks[getPreviousIndex(playlist, currentIndex)]
+    },
+
+    getDuration: ({ playlist }) => {
+      return playlist.tracks.reduce((total, track) => (track.duration || 0) + total, 0)
     }
   }
 }

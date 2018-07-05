@@ -1,13 +1,14 @@
 <template>
     <div class="home">
-        <app-player />
-        <app-list>
-            <li v-for="playlist in playlists" :key="playlist.id">
-                <router-link :to="{name: 'playlist', params: { playlistId: playlist.id }}">
-                    {{ playlist.name }}
-                </router-link>
-            </li>
-        </app-list>
+      <h1></h1>
+      <app-player />
+      <app-list>
+        <li v-for="playlist in playlists" :key="playlist.id">
+          <router-link :to="{name: 'playlist', params: { playlistId: playlist.id }}">
+            {{ playlist.name }}
+          </router-link>
+        </li>
+      </app-list>
     </div>
 </template>
 
