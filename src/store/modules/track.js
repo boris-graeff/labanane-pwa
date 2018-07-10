@@ -1,5 +1,5 @@
 import { getTrackUrl as getSoundcloudUrl } from '@/api/soundcloud'
-import { getTrackUrl as getYoutubeUrl } from '@/api/youtube'
+import { getStreamUrl } from '@/api/app'
 
 const SET_TRACK_INFOS = 'SET_TRACK_INFOS'
 
@@ -14,7 +14,7 @@ export default {
   mutations: {
     [SET_TRACK_INFOS] (state, track) {
       const { provider, providerId } = track
-      const url = provider === 'youtube' ? getYoutubeUrl(providerId) : getSoundcloudUrl(providerId)
+      const url = provider === 'youtube' ? getStreamUrl(providerId) : getSoundcloudUrl(providerId)
       state.infos = { ...track, url }
     }
   },
@@ -24,10 +24,14 @@ export default {
       commit(SET_TRACK_INFOS, track)
     },
 
-    setNextTrack (store) {
-      const isShuffleMode = false
+    setNextTrack (store, isShuffleMode) {
       const nextTrack = store.rootGetters['playlist/getNextTrack'](store.state.infos, isShuffleMode)
       store.commit(SET_TRACK_INFOS, nextTrack)
+    },
+
+    setPreviousTrack (store, isShuffleMode) {
+      const previousTrack = store.rootGetters['playlist/getPreviousTrack'](store.state.infos, isShuffleMode)
+      store.commit(SET_TRACK_INFOS, previousTrack)
     }
   }
 }

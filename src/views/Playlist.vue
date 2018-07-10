@@ -1,18 +1,20 @@
 <template>
   <div class="playlist">
+    <h1>{{ playlist.name }}</h1>
+    <span>{{ playlistDuration | duration }}</span>
     <app-list>
       <li v-for="track in playlist.tracks"
           :key="track.id"
           :class="{selected: track.id === currentTrack.id}"
           @click="() => setTrack(track)">
-        {{ track.name }} - {{ track.provider }}
+        <div>{{ track.name }} - {{ track.provider }}</div>
       </li>
     </app-list>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import AppList from '@/components/AppList'
 
 export default {
@@ -26,6 +28,9 @@ export default {
     }),
     ...mapState('track', {
       currentTrack: ({ infos }) => infos
+    }),
+    ...mapGetters('playlist', {
+      playlistDuration: 'duration'
     })
   },
   methods: {

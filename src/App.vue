@@ -33,6 +33,7 @@ export default {
   .app {
     min-height: 100vh;
     font-family: 'Roboto Condensed', sans-serif;
+    padding-bottom: $player-height;
 
     &:before {
       content: '';

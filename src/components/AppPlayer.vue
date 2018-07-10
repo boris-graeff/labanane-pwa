@@ -4,7 +4,7 @@
                   @timeupdate="onTimeUpdate"
                   @ended="onEnded" />
 
-    <track-progress :duration="track.duration"
+    <track-progress :duration="duration"
                     :currentTime="currentTime"
                     @seekTo="seekTo"/>
     <div>
@@ -31,7 +31,8 @@ export default {
     return {
       isShuffleMode: false,
       isPlaying: false,
-      currentTime: 0
+      currentTime: 0,
+      duration: 0
     }
   },
   computed: {
@@ -67,14 +68,17 @@ export default {
       this.isPlaying = false
       this.$refs.player.pause()
     },
-    onTimeUpdate (currentTime) {
+    onTimeUpdate (event) {
+      const { currentTime, duration } = event.target
       this.currentTime = currentTime
+      this.duration = duration
     },
     onEnded () {
       this.next()
     },
-    seekTo (value) {
-      console.log('seek to', value)
+    seekTo (event) {
+      const { value } = event.target
+      this.$refs.player.seekTo(value)
     },
     ...mapActions('track', {
       setNextTrack: 'setNextTrack',
@@ -91,8 +95,6 @@ export default {
 <style scoped lang="scss">
   @import '~@/styles/constants';
 
-  $player-height: 80px;
-
   .player {
     position: fixed;
     height: $player-height;
@@ -101,6 +103,7 @@ export default {
     right: 0;
     bottom: 0;
     z-index: 1000;
+    padding: $space-small;
 
     > div:last-child {
       display: flex;

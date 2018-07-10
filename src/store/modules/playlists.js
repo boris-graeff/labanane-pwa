@@ -17,7 +17,7 @@ export default {
   actions: {
     async getAll ({ commit }) {
       const playlists = await getAllPlaylists()
-      commit(SET_PLAYLISTS, playlists)
+      commit(SET_PLAYLISTS, playlists.sort((a, b) => b.timestamp - a.timestamp))
     }
   }
 }

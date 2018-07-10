@@ -13,7 +13,7 @@ const getNextIndex = (playlist, currentIndex) => {
 }
 
 const getPreviousIndex = (playlist, currentIndex) => {
-  const previousIndex = currentIndex + 1
+  const previousIndex = currentIndex - 1
   return previousIndex < 0 ? (playlist.tracks.length - 1) : previousIndex
 }
 
@@ -44,14 +44,14 @@ export default {
       return playlist.tracks[getNextIndex(playlist, currentIndex)]
     },
 
-    getPreviousTrack: ({ playlist }) => ({ isShuffleMode, currentTrack }) => {
+    getPreviousTrack: ({ playlist }) => (currentTrack, isShuffleMode) => {
       if (isShuffleMode) return playlist.tracks[getRandomIndex(playlist)]
 
       const currentIndex = getCurrentIndex(playlist, currentTrack.id)
       return playlist.tracks[getPreviousIndex(playlist, currentIndex)]
     },
 
-    getDuration: ({ playlist }) => {
+    duration: ({ playlist }) => {
       return playlist.tracks.reduce((total, track) => (track.duration || 0) + total, 0)
     }
   }

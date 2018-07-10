@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-      <h1></h1>
+      <h1>LaBanane</h1>
       <app-player />
       <app-list>
         <li v-for="playlist in playlists" :key="playlist.id">
