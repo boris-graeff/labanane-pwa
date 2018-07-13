@@ -20,7 +20,9 @@ const getPreviousIndex = (playlist, currentIndex) => {
 export default {
   namespaced: true,
   state: {
-    playlist: {}
+    playlist: {
+      tracks: []
+    }
   },
 
   mutations: {

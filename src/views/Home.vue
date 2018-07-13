@@ -2,10 +2,15 @@
     <div class="home">
       <h1>LaBanane</h1>
       <app-player />
-      <app-list>
+      <app-list class="playlists">
         <li v-for="playlist in playlists" :key="playlist.id">
           <router-link :to="{name: 'playlist', params: { playlistId: playlist.id }}">
-            {{ playlist.name }}
+            <span>
+              {{ playlist.name }}
+            </span>
+            <span>
+              {{ playlist.length }}
+            </span>
           </router-link>
         </li>
       </app-list>
@@ -37,3 +42,13 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+  .playlists {
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+</style>

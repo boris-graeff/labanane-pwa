@@ -1,20 +1,14 @@
 <template>
   <div id="app" class="app">
-    <router-view/>
-    <app-player v-show="track.id"/>
+    <router-view />
+    <app-player />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import AppPlayer from '@/components/AppPlayer'
 
 export default {
-  computed: {
-    ...mapState('track', {
-      track: ({ infos }) => infos
-    })
-  },
   components: {
     AppPlayer
   }
@@ -23,7 +17,7 @@ export default {
 
 <style>
   @import '~@/styles/reset.css';
-  @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700');
 
 </style>
 

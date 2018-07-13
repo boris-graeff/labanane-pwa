@@ -1,5 +1,5 @@
 <template>
-  <div class="player">
+  <div class="player" v-show="true || track.id">
     <audio-player ref="player"
                   @timeupdate="onTimeUpdate"
                   @ended="onEnded" />
@@ -7,15 +7,19 @@
     <track-progress :duration="duration"
                     :currentTime="currentTime"
                     @seekTo="seekTo"/>
-    <div>
+    <div class="bottom">
       <div>{{ track.name }}</div>
 
-      <div class="controls">
-        <button type="button" @click="setPreviousTrack(isShuffleMode)">Previous</button>
-        <button type="button" v-show="isPlaying" @click="pause">Pause</button>
-        <button type="button" v-show="!isPlaying" @click="play">Play</button>
-        <button type="button" @click="setNextTrack(isShuffleMode)">Next</button>
-        <button type="button" @click="isShuffleMode = !isShuffleMode">Shuffle mode</button>
+      <div>
+        <button type="button" @click="setPreviousTrack(isShuffleMode)" class="previous" />
+        <button type="button" v-show="isPlaying" @click="pause" class="pause" />
+        <button type="button" v-show="!isPlaying" @click="play" class="play" />
+        <button type="button" @click="setNextTrack(isShuffleMode)" class="next" />
+      </div>
+
+      <div>
+        <button type="button" @click="isShuffleMode = !isShuffleMode" class="shuffle" />
+        <volume-slider v-model="volume" />
       </div>
     </div>
   </div>
@@ -25,6 +29,7 @@
 import { mapState, mapActions } from 'vuex'
 import AudioPlayer from './AudioPlayer'
 import TrackProgress from './TrackProgress'
+import VolumeSlider from './VolumeSlider'
 
 export default {
   data () {
@@ -32,7 +37,8 @@ export default {
       isShuffleMode: false,
       isPlaying: false,
       currentTime: 0,
-      duration: 0
+      duration: 0,
+      volume: 100
     }
   },
   computed: {
@@ -87,7 +93,8 @@ export default {
   },
   components: {
     TrackProgress,
-    AudioPlayer
+    AudioPlayer,
+    VolumeSlider
   }
 }
 </script>
@@ -103,11 +110,50 @@ export default {
     right: 0;
     bottom: 0;
     z-index: 1000;
-    padding: $space-small;
+    padding: 0 $space-small $space-small;
+  }
 
-    > div:last-child {
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > div {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  button {
+    width: 48px;
+    height: 48px;
+    display: block;
+    padding: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: center center;
+    position: relative;
+    border: 0;
+
+    &.play {
+      background-image: url('~@/assets/icn-play.svg');
+    }
+
+    &.pause {
+      background-image: url('~@/assets/icn-pause.svg');
+    }
+
+    &.next {
+      background-image: url('~@/assets/icn-next.svg');
+    }
+
+    &.previous {
+      background-image: url('~@/assets/icn-previous.svg');
+    }
+
+    &.shuffle {
+      background-image: url('~@/assets/icn-shuffle.svg');
     }
   }
 </style>

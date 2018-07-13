@@ -1,10 +1,9 @@
 <template>
   <div class='track-progress'>
-    <input type='range'
-           min='0'
-           :max='duration'
-           :value='currentTime'
-           @input.prevent='val => $emit("seekTo", val)' />
+    <app-slider min='0'
+            :max='duration'
+            :value='currentTime'
+            @input.prevent='val => $emit("seekTo", val)' />
     <span :style='{width: progression.toFixed(1) + "%"}'></span>
     <div>
       {{ currentTime | duration }}
@@ -14,12 +13,17 @@
 </template>
 
 <script>
+import AppSlider from './AppSlider'
+
 export default {
   props: ['currentTime', 'duration'],
   computed: {
     progression () {
       return this.currentTime / this.duration * 100
     }
+  },
+  components: {
+    AppSlider
   }
 }
 </script>
@@ -32,9 +36,21 @@ export default {
   }
 
   .track-progress {
+    position: relative;
+
+    > *:first-child {
+      z-index: 1;
+    }
+
     > div:last-child {
+      position: absolute;
+      z-index: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
       display: flex;
       justify-content: space-between;
+      font-size: 14px;
     }
   }
 </style>

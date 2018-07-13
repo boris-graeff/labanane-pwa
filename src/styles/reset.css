@@ -29,4 +29,9 @@ a {
 
 ul {
   margin: 0;
+  list-style: none;
+}
+
+h1 {
+  margin: 0;
 }
