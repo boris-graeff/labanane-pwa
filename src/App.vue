@@ -1,6 +1,8 @@
 <template>
   <div id="app" class="app">
-    <router-view />
+    <div>
+      <router-view />
+    </div>
     <app-player />
   </div>
 </template>
@@ -27,7 +29,6 @@ export default {
   .app {
     min-height: 100vh;
     font-family: 'Roboto Condensed', sans-serif;
-    padding-bottom: $player-height;
 
     &:before {
       content: '';
