@@ -84,4 +84,21 @@ export default {
     overflow-y: visible;
     overflow-x: hidden;
   }
+
+  @media screen and (max-width: 800px) {
+    .home {
+      flex-direction: column;
+    }
+
+    .main {
+      height: auto;
+      width: 100%;
+    }
+
+    .playlists {
+      width: 100%;
+      height: auto;
+      margin-top: $space-big;
+    }
+  }
 </style>

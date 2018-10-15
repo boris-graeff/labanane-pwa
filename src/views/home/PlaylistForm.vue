@@ -51,9 +51,22 @@
       margin-bottom: $space-small;
     }
   }
+
   .button {
     height: 40px;
     min-width: 200px;
     margin-left: $space-medium;
+  }
+
+  @media screen and (max-width: 440px) {
+    .playlist-form > div {
+      display: block;
+    }
+
+    .button {
+      width: 100%;
+      margin-left: 0;
+      margin-top: $space-big;
+    }
   }
 </style>
