@@ -2,12 +2,12 @@
   <app-list class="playlists-list">
     <li v-for="playlist in playlists" :key="playlist.id">
       <router-link :to="{name: 'playlist', params: { playlistId: playlist.id }}">
-            <span>
-              {{ playlist.name }}
-            </span>
         <span>
-              {{ playlist.length }}
-            </span>
+          {{ playlist.name }}
+        </span>
+        <span>
+          {{ playlist.length }}
+        </span>
       </router-link>
     </li>
   </app-list>

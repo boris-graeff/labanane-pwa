@@ -8,29 +8,16 @@
 
       <actions-panel class="actions-panel"/>
 
-      <div class="tracklist">
-        <span>{{ playlistDuration | duration }}</span>
-        <h1>{{ playlist.name }}</h1>
+      <playlist-content class="playlist-content" />
 
-        <app-list>
-          <tracklist-item v-for="(track, index) in playlist.tracks"
-                          :key="track.id"
-                          :index="index"
-                          :track="track"
-                          :class="{selected: track.id === currentTrack.id}"
-                          @click="() => setTrack(track)" />
-        </app-list>
-      </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
-import AppList from '@/components/AppList'
-import TracklistItem from '@/components/TracklistItem'
+import { mapActions } from 'vuex'
 import ActionsPanel from './playlist/ActionsPanel'
+import PlaylistContent from './playlist/PlaylistContent'
 
 export default {
   props: ['playlistId'],
@@ -38,30 +25,15 @@ export default {
     this.getPlaylist(this.playlistId)
     this.checkPassword(this.playlistId)
   },
-  computed: {
-    ...mapState('playlist', {
-      playlist: ({ playlist }) => playlist
-    }),
-    ...mapState('track', {
-      currentTrack: ({ infos }) => infos
-    }),
-    ...mapGetters('playlist', {
-      playlistDuration: 'duration'
-    })
-  },
   methods: {
     ...mapActions('playlist', {
       getPlaylist: 'getPlaylist',
       checkPassword: 'checkPassword'
-    }),
-    ...mapActions('track', {
-      setTrack: 'setTrack'
     })
   },
   components: {
-    AppList,
-    TracklistItem,
-    ActionsPanel
+    ActionsPanel,
+    PlaylistContent
   }
 }
 </script>
@@ -101,7 +73,7 @@ export default {
     transition: opacity .2s ease-in-out;
   }
 
-  .actions-panel, .tracklist {
+  .actions-panel, .playlist-content {
     transition: width .2s ease-in-out, transform .2s ease-in-out;
     will-change: width;
   }
@@ -114,7 +86,7 @@ export default {
     top: 60px;
   }
 
-  .tracklist {
+  .playlist-content {
     width: 70%;
     position: relative;
     background-color: rgba($wheat, .15);

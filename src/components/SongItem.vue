@@ -19,13 +19,9 @@ export default {
     display: flex;
     align-items: center;
 
-    &.selected {
-      background-color: $wheat;
-    }
-
-    div {
+    > div {
       padding-right: 6px;
-      padding-left: 36px;
+      padding-left: 40px;
       width: 100%;
       height: 100%;
       overflow: hidden;

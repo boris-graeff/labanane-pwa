@@ -29,6 +29,7 @@ export default {
   .app {
     min-height: 100vh;
     font-family: 'Roboto Condensed', sans-serif;
+    color: $black;
 
     &:before {
       content: '';

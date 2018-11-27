@@ -1,5 +1,5 @@
 import { getPlaylist, checkPlaylistPassword } from '@/api/app'
-import {getPasswordFromLocalStorage} from "../../helpers/localStorage";
+import { getPasswordFromLocalStorage } from '@/helpers/localStorage'
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
 const IS_PLAYLIST_OWNER = 'IS_PLAYLIST_OWNER'

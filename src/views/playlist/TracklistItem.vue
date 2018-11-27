@@ -1,38 +1,29 @@
 <template>
-  <li class="track">
-    <span class="index">{{ index }}</span>
+  <song-item :song="track">
+    <span class="index">{{ index + 1 }}</span>
     <div>
       <span class="provider" :class="`${track.provider}`"/>
-      <div>
+      <div class="content">
         <span class="name">{{ track.name }}</span>
         <span class="duration">{{ track.duration | duration }}</span>
       </div>
     </div>
-  </li>
+  </song-item>
 </template>
 
 <script>
+import SongItem from '@/components/SongItem'
+
 export default {
-  props: ['track', 'index']
+  props: ['track', 'index'],
+  components: {
+    SongItem
+  }
 }
 </script>
 
 <style scoped lang="scss">
   @import '~@/styles/constants';
-
-  .track > div {
-    display: flex;
-    align-items: center;
-  }
-
-  .provider {
-    + div {
-      flex: 1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
 
   .index {
     position: absolute;
@@ -42,6 +33,11 @@ export default {
     right: 100%;
     text-align: right;
     width: $space-big;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
   }
 
   .name {
@@ -57,22 +53,5 @@ export default {
     min-width: 54px;
     text-align: right;
     padding-right: $space-small;
-  }
-
-  .provider {
-    display: inline-block;
-    width: 30px;
-    height: 12px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-
-    &.youtube {
-      background-image: url('~@/assets/icn-you-tube.svg')
-    }
-
-    &.soundcloud {
-      background-image: url('~@/assets/icn-soundcloud.svg')
-    }
   }
 </style>
