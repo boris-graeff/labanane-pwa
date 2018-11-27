@@ -31,6 +31,7 @@ export default {
   props: ['playlistId'],
   mounted () {
     this.getPlaylist(this.playlistId)
+    this.checkPassword(this.playlistId)
   },
   computed: {
     ...mapState('playlist', {
@@ -45,7 +46,8 @@ export default {
   },
   methods: {
     ...mapActions('playlist', {
-      getPlaylist: 'getPlaylist'
+      getPlaylist: 'getPlaylist',
+      checkPassword: 'checkPassword'
     }),
     ...mapActions('track', {
       setTrack: 'setTrack'

@@ -1,6 +1,8 @@
-import { getPlaylist } from '@/api/app'
+import { getPlaylist, checkPlaylistPassword } from '@/api/app'
+import {getPasswordFromLocalStorage} from "../../helpers/localStorage";
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
+const IS_PLAYLIST_OWNER = 'IS_PLAYLIST_OWNER'
 
 const getCurrentIndex = (playlist, currentTrackId) =>
   playlist.tracks.findIndex(track => track.id === currentTrackId)
@@ -21,20 +23,31 @@ export default {
   namespaced: true,
   state: {
     playlist: {
-      tracks: []
+      tracks: [],
+      isOwner: false,
+      password: ''
     }
   },
 
   mutations: {
     [SET_PLAYLIST] (state, playlist) {
       state.playlist = playlist
+    },
+    [IS_PLAYLIST_OWNER] (state, password) {
+      state.isOwner = true
+      state.password = password
     }
   },
 
   actions: {
-    async getPlaylist (store, playlistId) {
-      const { data } = await getPlaylist(playlistId)
+    async getPlaylist (store, id) {
+      const { data } = await getPlaylist(id)
       store.commit(SET_PLAYLIST, data)
+    },
+    async checkPassword (store, id) {
+      const password = getPasswordFromLocalStorage(id)
+      await checkPlaylistPassword({ id, password })
+      store.commit(IS_PLAYLIST_OWNER, password)
     }
   },
 
