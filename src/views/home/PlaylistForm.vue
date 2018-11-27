@@ -2,7 +2,7 @@
   <form @submit.prevent="onSubmit" class="playlist-form">
 
     <h2>Create your playlist now !</h2>
-    <app-input type="text" v-model="name" label="Name" />
+    <app-input type="text" :value="name" @input="slugifyName" label="Name" />
     <div>
       <app-input type="password" v-model="password" label="Password" />
       <app-button type="submit" class="button">Create</app-button>
@@ -11,20 +11,35 @@
 </template>
 
 <script>
-import AppInput from '@/components/AppInput';
-import AppButton from '@/components/AppButton';
+import { mapActions } from 'vuex'
+import AppInput from '@/components/AppInput'
+import AppButton from '@/components/AppButton'
+import { slugify } from '@/helpers/strings'
 
 export default {
-  data() {
+  data () {
     return {
       name: '',
       password: ''
     }
   },
   methods: {
-    onSubmit() {
-      console.log(this.name, this.password);
-    }
+    async onSubmit () {
+      const { name, password } = this
+
+      try {
+        const playlistId = await this.createPlaylist({ name, password })
+        this.$router.push({ name: 'playlist', params: { playlistId } })
+      } catch (e) {
+        // TODO handle error
+      }
+    },
+    slugifyName (name) {
+      this.name = slugify(name)
+    },
+    ...mapActions('playlists', {
+      createPlaylist: 'create'
+    })
   },
   components: {
     AppInput,

@@ -1,4 +1,4 @@
-import { getAllPlaylists } from '@/api/app'
+import { getAllPlaylists, createPlaylist } from '@/api/app'
 
 const SET_PLAYLISTS = 'SET_PLAYLISTS'
 
@@ -16,8 +16,12 @@ export default {
 
   actions: {
     async getAll ({ commit }) {
-      const playlists = await getAllPlaylists()
-      commit(SET_PLAYLISTS, playlists.sort((a, b) => b.timestamp - a.timestamp))
+      const { data }= await getAllPlaylists()
+      commit(SET_PLAYLISTS, data.sort((a, b) => b.timestamp - a.timestamp))
+    },
+    async create ({ commit }, payload) {
+      const { data } = await createPlaylist(payload)
+      return data.id
     }
   }
 }

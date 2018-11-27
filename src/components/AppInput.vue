@@ -1,9 +1,9 @@
 <template>
   <div class="input">
     <label>
-      <span>{{ label }}</span>
+      <span>{{ label }}</span>
 
-      <input :type="type" :value="value" @input="e => $emit('input', e.target.value)" />
+      <input :type="type" :value="value" @input="$emit('input', $event.target.value)" />
     </label>
   </div>
 </template>

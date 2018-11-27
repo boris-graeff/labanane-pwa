@@ -33,8 +33,8 @@ export default {
 
   actions: {
     async getPlaylist (store, playlistId) {
-      const playlist = await getPlaylist(playlistId)
-      store.commit(SET_PLAYLIST, playlist)
+      const { data } = await getPlaylist(playlistId)
+      store.commit(SET_PLAYLIST, data)
     }
   },
 
