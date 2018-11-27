@@ -1,5 +1,5 @@
 <template>
-  <div class="player" v-show="true || track.id">
+  <div class="player" v-show="true || track.id">
     <audio-player ref="player"
                   @timeupdate="onTimeUpdate"
                   @ended="onEnded" />

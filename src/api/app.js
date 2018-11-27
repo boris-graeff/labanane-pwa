@@ -17,4 +17,3 @@ export const updatePlaylist = playlist => client.put('/playlists', playlist)
 export const authenticate = params => client.post('/playlists/auth', params)
 
 export const getStreamUrl = id => `${VUE_APP_API_BASE_URL}/streams/${id}`
-

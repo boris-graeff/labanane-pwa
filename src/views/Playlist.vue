@@ -65,7 +65,7 @@ export default {
     padding-left: $space-big;
     padding-top: $space-small;
 
-    h1 {
+    h1 {
       font-weight: 300;
     }
 

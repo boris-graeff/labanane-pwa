@@ -2,17 +2,17 @@
   <div class="input">
     <label>
       <span>{{ label }}</span>
-      <input v-bind="$attrs" v-on="$listeners" />
+
+      <input :type="type" :value="value" @input="e => $emit('input', e.target.value)" />
     </label>
   </div>
 </template>
 
 <script>
-  export default {
-    props: ['label']
-  }
+export default {
+  props: ['label', 'type', 'value']
+}
 </script>
-
 
 <style scoped lang="scss">
   @import '~@/styles/constants';

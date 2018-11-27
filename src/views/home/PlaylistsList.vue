@@ -14,19 +14,19 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import AppList from '@/components/AppList.vue';
+import { mapState } from 'vuex'
+import AppList from '@/components/AppList'
 
-  export default {
-    computed: {
-      ...mapState('playlists', {
-        playlists: ({ playlists }) => playlists
-      })
-    },
-    components: {
-      AppList
-    }
+export default {
+  computed: {
+    ...mapState('playlists', {
+      playlists: ({ playlists }) => playlists
+    })
+  },
+  components: {
+    AppList
   }
+}
 </script>
 
 <style scoped lang="scss">

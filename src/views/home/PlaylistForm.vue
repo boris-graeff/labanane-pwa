@@ -11,26 +11,26 @@
 </template>
 
 <script>
-  import AppInput from '@/components/AppInput';
-  import AppButton from '@/components/AppButton';
+import AppInput from '@/components/AppInput';
+import AppButton from '@/components/AppButton';
 
-  export default {
-    data() {
-      return {
-        name: '',
-        password: ''
-      }
-    },
-    methods: {
-      onSubmit() {
-        console.log(this.name, this.password);
-      }
-    },
-    components: {
-      AppInput,
-      AppButton
+export default {
+  data() {
+    return {
+      name: '',
+      password: ''
     }
+  },
+  methods: {
+    onSubmit() {
+      console.log(this.name, this.password);
+    }
+  },
+  components: {
+    AppInput,
+    AppButton
   }
+}
 </script>
 
 <style scoped lang="scss">
