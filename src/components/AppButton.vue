@@ -8,7 +8,6 @@
   @import '~@/styles/constants';
 
   button {
-    border: none;
     padding: 6px 12px;
     background: rgba($black, 0.1);
     font-style: italic;

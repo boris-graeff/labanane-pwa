@@ -8,8 +8,9 @@
                       :key="track.id"
                       :index="index"
                       :track="track"
+                      :isOwner="isOwner"
                       :class="{selected: track.id === currentTrack.id}"
-                      @click="() => setTrack(track)" />
+                      @click.native="setTrack(track)" />
     </app-list>
   </div>
 </template>
@@ -23,7 +24,8 @@ export default {
   computed: {
     ...mapState('playlist', {
       tracks: ({ tracks }) => tracks,
-      name: ({ name }) => name
+      name: ({ name }) => name,
+      isOwner: ({ isOwner }) => isOwner
     }),
     ...mapState('track', {
       currentTrack: ({ infos }) => infos
