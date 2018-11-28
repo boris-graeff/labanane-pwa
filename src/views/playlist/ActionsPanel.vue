@@ -6,9 +6,14 @@
       <app-input label="Search by name" v-model="keywords" @input="onChange" />
 
       <app-list>
-        <song-item v-for="song in results" :song="song">
-          {{ song.name }}
-        </song-item>
+        <track-item v-for="track in results"
+                    :key='track.provider+track.providerId'
+                    :track="track"
+                    draggable=true
+                    @dragstart.native='onDragStart(track, $event)'
+                    @click.native='addTrack({ track })'>
+          {{ track.name }}
+        </track-item>
       </app-list>
     </div>
   </div>
@@ -19,7 +24,7 @@ import { debounce } from 'lodash'
 import { mapState, mapActions } from 'vuex'
 import AppInput from '@/components/AppInput'
 import AppList from '@/components/AppList'
-import SongItem from '@/components/SongItem'
+import TrackItem from '@/components/TrackItem'
 
 export default {
   data () {
@@ -35,20 +40,26 @@ export default {
   methods: {
     onChange: debounce(function () {
       try {
-        this.searchSongs(this.keywords)
+        this.searchTracks(this.keywords)
       } catch (e) {
         // TODO handle error
       }
     }, 240),
 
-    ...mapActions('search', {
-      searchSongs: 'searchSongs'
+    onDragStart (track, event) {
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.setData('track', JSON.stringify(track))
+    },
+
+    ...mapActions({
+      searchTracks: 'search/searchTracks',
+      addTrack: 'playlist/addTrack'
     })
   },
   components: {
     AppInput,
     AppList,
-    SongItem
+    TrackItem
   }
 }
 </script>

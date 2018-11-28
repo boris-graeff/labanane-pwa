@@ -1,5 +1,5 @@
 <template>
-  <li :class='song.provider'>
+  <li :class='track.provider'>
     <div>
       <slot></slot>
     </div>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  props: ['song']
+  props: ['track']
 }
 </script>
 

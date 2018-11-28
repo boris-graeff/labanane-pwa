@@ -1,5 +1,5 @@
 <template>
-  <song-item :song="track">
+  <track-item :track="track">
     <span class="index">{{ index + 1 }}</span>
     <div>
       <span class="provider" :class="`${track.provider}`"/>
@@ -8,16 +8,16 @@
         <span class="duration">{{ track.duration | duration }}</span>
       </div>
     </div>
-  </song-item>
+  </track-item>
 </template>
 
 <script>
-import SongItem from '@/components/SongItem'
+import TrackItem from '@/components/TrackItem'
 
 export default {
   props: ['track', 'index'],
   components: {
-    SongItem
+    TrackItem
   }
 }
 </script>

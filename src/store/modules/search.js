@@ -1,6 +1,5 @@
 import levenshtein from 'levenshtein'
 import { search as searchOnYoutube } from '@/api/youtube'
-import { getPasswordFromLocalStorage } from '@/helpers/localStorage'
 
 const SET_RESULTS = 'SET_RESULTS'
 
@@ -28,31 +27,11 @@ export default {
   },
 
   actions: {
-    async searchSongs(store, keywords) {
+    async searchTracks (store, keywords) {
       if (!keywords.length) store.commit(SET_RESULTS, [])
 
       const results = await Promise.all([youtubeSearch(keywords)]);
       store.commit(SET_RESULTS, results.flat().sort((a, b) => a.leven - b.leven))
-    }
-  },
-
-  getters: {
-    getNextTrack: ({ playlist }) => (currentTrack, isShuffleMode) => {
-      if (isShuffleMode) return playlist.tracks[getRandomIndex(playlist)]
-
-      const currentIndex = getCurrentIndex(playlist, currentTrack.id)
-      return playlist.tracks[getNextIndex(playlist, currentIndex)]
-    },
-
-    getPreviousTrack: ({ playlist }) => (currentTrack, isShuffleMode) => {
-      if (isShuffleMode) return playlist.tracks[getRandomIndex(playlist)]
-
-      const currentIndex = getCurrentIndex(playlist, currentTrack.id)
-      return playlist.tracks[getPreviousIndex(playlist, currentIndex)]
-    },
-
-    duration: ({ playlist }) => {
-      return playlist.tracks.reduce((total, track) => (track.duration || 0) + total, 0)
     }
   }
 }

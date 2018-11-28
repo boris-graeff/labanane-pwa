@@ -1,10 +1,10 @@
 <template>
 <div class="playlist-content">
     <span>{{ playlistDuration | duration }}</span>
-    <h1>{{ playlist.name }}</h1>
+    <h1>{{ name }}</h1>
 
-    <app-list>
-      <tracklist-item v-for="(track, index) in playlist.tracks"
+    <app-list  @dragover.prevent @drop='onDropEnd'>
+      <tracklist-item v-for="(track, index) in tracks"
                       :key="track.id"
                       :index="index"
                       :track="track"
@@ -22,7 +22,8 @@ import TracklistItem from './TracklistItem'
 export default {
   computed: {
     ...mapState('playlist', {
-      playlist: ({ playlist }) => playlist
+      tracks: ({ tracks }) => tracks,
+      name: ({ name }) => name
     }),
     ...mapState('track', {
       currentTrack: ({ infos }) => infos
@@ -32,8 +33,13 @@ export default {
     })
   },
   methods: {
-    ...mapActions('track', {
-      setTrack: 'setTrack'
+    onDropEnd (event) {
+      const track = JSON.parse(event.dataTransfer.getData('track'))
+      track.id ? this.moveTrack({ track }) : this.addTrack({ track })
+    },
+    ...mapActions({
+      setTrack: 'track/setTrack',
+      addTrack: 'playlist/addTrack'
     })
   },
   components: {
