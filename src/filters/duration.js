@@ -3,7 +3,7 @@ import moment from 'moment'
 export default (duration) => {
   if (!duration) return '-'
 
-  const momentDuration = moment.duration(duration, 'seconds')
+  const momentDuration = moment.duration(duration, 'milliseconds')
   let hours = momentDuration.hours()
   let minutes = momentDuration.minutes()
   let seconds = momentDuration.seconds()

@@ -4,9 +4,10 @@
                   @timeupdate="onTimeUpdate"
                   @ended="onEnded" />
 
-    <track-progress :duration="duration"
+    <track-progress :duration="track.duration"
                     :currentTime="currentTime"
                     @seekTo="seekTo"/>
+
     <div class="bottom">
       <div class="left">{{ track.name }}</div>
 
@@ -51,8 +52,7 @@ export default {
       isShuffleMode: false,
       isPlaying: false,
       currentTime: 500,
-      duration: 0,
-      volume: 50
+      volume: 100
     }
   },
   computed: {
@@ -89,15 +89,14 @@ export default {
       else this.$refs.player.pause()
     },
     onTimeUpdate (event) {
-      const { currentTime, duration } = event.target
-      this.currentTime = currentTime
-      this.duration = duration
+      const { currentTime } = event.target
+      this.currentTime = currentTime * 1000
     },
     onEnded () {
-      this.next()
+      this.setNextTrack()
     },
     seekTo (value) {
-      this.$refs.player.seekTo(value)
+      this.$refs.player.seekTo(value / 1000)
     },
     ...mapActions('track', {
       setNextTrack: 'setNextTrack',
