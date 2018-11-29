@@ -1,4 +1,7 @@
+import moment from 'moment'
+import { cloneDeep } from 'lodash'
 import { getPlaylist, checkPlaylistPassword, updatePlaylist } from '@/api/app'
+import { getVideoDetails } from '@/api/youtube'
 import { getPasswordFromLocalStorage, savePasswordInLocalStorage } from '@/helpers/localStorage'
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
@@ -68,7 +71,15 @@ export default {
     },
 
     async addTrack (store, { track, index }) {
-      store.commit(ADD_TRACK, { track, index })
+      const clonedTrack = cloneDeep(track)
+
+      if (clonedTrack.provider === 'youtube') {
+        const { data } = await getVideoDetails(clonedTrack.providerId)
+        const duration = data.items[0].contentDetails.duration
+        clonedTrack.duration = moment.duration(duration).asMilliseconds()
+      }
+
+      store.commit(ADD_TRACK, { track: clonedTrack, index })
       updatePlaylist(store.state)
     },
 

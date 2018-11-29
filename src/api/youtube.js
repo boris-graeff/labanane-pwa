@@ -17,7 +17,7 @@ export const search = keywords => youtube.get('/search', {
   }
 })
 
-export const getDetails = id => youtube.get('/videos', {
+export const getVideoDetails = id => youtube.get('/videos', {
   params: {
     id,
     part: 'contentDetails',
