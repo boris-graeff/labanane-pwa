@@ -1,10 +1,10 @@
 <template>
-  <div class="actions-panel">
-    <div class="search">
-      <h2>Add tracks</h2>
+  <div class="search">
+    <h2>Add tracks</h2>
 
-      <app-input label="Search by name" v-model="keywords" @input="onChange" />
+    <app-input label="Search by name" v-model="keywords" @input="onChange" />
 
+    <div class="results">
       <app-list>
         <track-item v-for="track in results"
                     :key='track.provider+track.providerId'
@@ -67,17 +67,6 @@ export default {
 <style scoped lang="scss">
   @import '~@/styles/constants';
 
-  .actions-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-
-    h2 {
-      font-size: 30px;
-      font-weight: 300;
-    }
-  }
-
   .search {
     width: 100%;
     padding-left: 20px;
@@ -85,5 +74,12 @@ export default {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+  }
+
+  .results {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    margin-right: -21px;
   }
 </style>

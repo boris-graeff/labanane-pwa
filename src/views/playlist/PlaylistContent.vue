@@ -3,7 +3,7 @@
     <span>{{ playlistDuration | duration }}</span>
     <h1>{{ name }}</h1>
 
-    <app-list  @dragover.prevent @drop='onDropEnd'>
+    <app-list class="tracks" @dragover.prevent @drop='onDropEnd'>
       <tracklist-item v-for="(track, index) in tracks"
                       :key="track.id"
                       :index="index"
@@ -62,5 +62,9 @@ export default {
       font-size: 40px;
       font-weight: 300;
     }
+  }
+
+  .tracks {
+    min-height: 100vh;
   }
 </style>

@@ -37,8 +37,8 @@ export default {
       state.name = name
       state.id = id
     },
-    [IS_PLAYLIST_OWNER] (state, password) {
-      state.isOwner = true
+    [IS_PLAYLIST_OWNER] (state, { password, isOwner }) {
+      state.isOwner = isOwner
       state.password = password
     },
     [ADD_TRACK] (state, { track, index }) {
@@ -60,8 +60,8 @@ export default {
 
     async checkPassword (store, id) {
       const password = getPasswordFromLocalStorage(id)
-      await checkPlaylistPassword({ id, password })
-      store.commit(IS_PLAYLIST_OWNER, password)
+      const { data: isOwner } = await checkPlaylistPassword({ id, password })
+      store.commit(IS_PLAYLIST_OWNER, { isOwner, password })
     },
 
     async addTrack (store, { track, index }) {

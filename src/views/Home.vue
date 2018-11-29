@@ -4,7 +4,7 @@
         <div>
           <header>
             <h1>
-              <img src="~@/assets/labanane.svg" alt="LaBanane" title="LaBanane">
+              <img src="~@/assets/labanane-title.svg" alt="LaBanane" title="LaBanane">
             </h1>
             <p>
               Welcome to LaBanane, the application for sharing and listening to your favorite music !<br>

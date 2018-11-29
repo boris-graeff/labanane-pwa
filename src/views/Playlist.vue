@@ -1,29 +1,56 @@
 <template>
-  <div class="playlist">
+  <div class="playlist" :class="{expanded: expandActionsPanel}">
     <router-link :to="{ name: 'home'}" class='home'>
-      <img src='/img/labanane-logo.svg' alt="LaBanane logo"/>
+      <img src='~@/assets/labanane-logo.svg' alt="LaBanane"/>
     </router-link>
 
-    <div class="content">
+    <div class="content" v-if="!isLoading">
 
-      <actions-panel class="actions-panel"/>
+      <div class="actions-panel">
+        <toggle-button @click.native="expandActionsPanel = !expandActionsPanel"
+                       :on="expandActionsPanel" >
+          <img src="~@/assets/icn-edit.svg" />
+          <img src="~@/assets/icn-cross.svg" />
+        </toggle-button>
+
+        <track-search v-if="isOwner && expandActionsPanel" />
+
+        <auth-form v-if="!isOwner && expandActionsPanel" />
+      </div>
 
       <playlist-content class="playlist-content" />
-
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import ActionsPanel from './playlist/ActionsPanel'
+import { mapActions, mapState } from 'vuex'
+import ToggleButton from '@/components/ToggleButton'
 import PlaylistContent from './playlist/PlaylistContent'
+import TrackSearch from './playlist/TrackSearch'
+import AuthForm from './playlist/AuthForm'
 
 export default {
   props: ['playlistId'],
-  mounted () {
-    this.getPlaylist(this.playlistId)
-    this.checkPassword(this.playlistId)
+  data () {
+    return {
+      isLoading: true,
+      expandActionsPanel: false
+    }
+  },
+  async created () {
+    try {
+      await Promise.all([this.getPlaylist(this.playlistId), this.checkPassword(this.playlistId)])
+      this.expandActionsPanel = !this.tracks.length
+    } finally {
+      this.isLoading = false
+    }
+  },
+  computed: {
+    ...mapState('playlist', {
+      tracks: ({ tracks }) => tracks,
+      isOwner: ({ isOwner }) => isOwner
+    })
   },
   methods: {
     ...mapActions('playlist', {
@@ -32,8 +59,10 @@ export default {
     })
   },
   components: {
-    ActionsPanel,
-    PlaylistContent
+    PlaylistContent,
+    TrackSearch,
+    AuthForm,
+    ToggleButton
   }
 }
 </script>
@@ -54,6 +83,16 @@ export default {
 
       img {
         margin-right: $space-small;
+      }
+    }
+
+    &.expanded {
+      .actions-panel {
+        width: 30%;
+      }
+
+      .playlist-content {
+        width: 70%;
       }
     }
   }
@@ -81,13 +120,22 @@ export default {
   .actions-panel {
     position: fixed;
     height: 100vh;
-    width: 30%;
+    width: 20%;
     left: 0;
     top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 6px;
+
+    h2 {
+      font-size: 30px;
+      font-weight: 300;
+    }
   }
 
   .playlist-content {
-    width: 70%;
+    width: 80%;
     position: relative;
     background-color: rgba($wheat, .15);
     min-height: 100vh;
