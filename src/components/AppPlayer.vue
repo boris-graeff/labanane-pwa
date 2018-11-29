@@ -12,13 +12,21 @@
 
       <div>
         <button type="button" @click="setPreviousTrack(isShuffleMode)" class="previous" />
-        <button type="button" v-show="isPlaying" @click="pause" class="pause" />
-        <button type="button" v-show="!isPlaying" @click="play" class="play" />
+
+        <toggle-button :on="isPlaying" @click.native="togglePlaying">
+          <img src="~@/assets/icn-play.svg" />
+          <img src="~@/assets/icn-pause.svg" />
+        </toggle-button>
+
         <button type="button" @click="setNextTrack(isShuffleMode)" class="next" />
       </div>
 
       <div>
-        <button type="button" @click="isShuffleMode = !isShuffleMode" class="shuffle" />
+        <toggle-button :on="isShuffleMode" @click.native="isShuffleMode = !isShuffleMode">
+          <img src="~@/assets/icn-shuffle.svg" />
+          <img src="~@/assets/icn-baseline.svg" />
+        </toggle-button>
+
         <volume-slider v-model="volume" />
       </div>
     </div>
@@ -27,6 +35,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import ToggleButton from '@/components/ToggleButton'
+import AppCheckbox from '@/components/AppCheckbox'
 import AudioPlayer from './AudioPlayer'
 import TrackProgress from './TrackProgress'
 import VolumeSlider from './VolumeSlider'
@@ -38,7 +48,7 @@ export default {
       isPlaying: false,
       currentTime: 0,
       duration: 0,
-      volume: 100
+      volume: 50
     }
   },
   computed: {
@@ -56,6 +66,9 @@ export default {
     }
   },
   watch: {
+    volume () {
+      this.$refs.player.setVolume(this.volume)
+    },
     track () {
       if ('mediaSession' in navigator) {
         // eslint-disable-next-line
@@ -66,13 +79,10 @@ export default {
     }
   },
   methods: {
-    play () {
-      this.isPlaying = true
-      this.$refs.player.play()
-    },
-    pause () {
-      this.isPlaying = false
-      this.$refs.player.pause()
+    togglePlaying () {
+      this.isPlaying = !this.isPlaying
+      if (this.isPlaying) this.$refs.player.play()
+      else this.$refs.player.pause()
     },
     onTimeUpdate (event) {
       const { currentTime, duration } = event.target
@@ -94,7 +104,9 @@ export default {
   components: {
     TrackProgress,
     AudioPlayer,
-    VolumeSlider
+    VolumeSlider,
+    ToggleButton,
+    AppCheckbox
   }
 }
 </script>
@@ -136,24 +148,12 @@ export default {
     position: relative;
     border: 0;
 
-    &.play {
-      background-image: url('~@/assets/icn-play.svg');
-    }
-
-    &.pause {
-      background-image: url('~@/assets/icn-pause.svg');
-    }
-
     &.next {
       background-image: url('~@/assets/icn-next.svg');
     }
 
     &.previous {
       background-image: url('~@/assets/icn-previous.svg');
-    }
-
-    &.shuffle {
-      background-image: url('~@/assets/icn-shuffle.svg');
     }
   }
 </style>

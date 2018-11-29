@@ -1,11 +1,23 @@
 <template>
   <div class="slider">
     <input type="range" v-bind="$attrs" v-on="$listeners" />
+    <slot></slot>
   </div>
 </template>
 
 <style scoped lang="scss">
   @import '~@/styles/constants';
+
+  .slider {
+    position: relative;
+    line-height: 0;
+
+    input {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+    }
+  }
 
   /* Based on https://github.com/darlanrod/input-range-scss */
 

@@ -24,6 +24,9 @@ export default {
     pause () {
       this.$refs.player.pause()
     },
+    setVolume (volume) {
+      this.$refs.player.volume = volume / 100
+    },
     seekTo (position) {
       this.$refs.player.currentTime = position
     }
