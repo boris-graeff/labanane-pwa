@@ -1,13 +1,15 @@
 <template>
   <div class='track-progress'>
-    <app-slider min='0'
-            :max='duration'
-            :value='currentTime'
-            @input.prevent='val => $emit("seekTo", val)' />
-    <span :style='{width: progression.toFixed(1) + "%"}'></span>
+    <app-slider class="slider"
+                min='0'
+                :max='duration'
+                :value='currentTime'
+                @input.prevent='$emit("seekTo", Number($event.target.value))'>
+      <span :style='{width: progression.toFixed(1) + "%"}'></span>
+    </app-slider>
     <div>
-      {{ currentTime | duration }}
-      {{ duration | duration }}
+      <span>{{ currentTime | duration }}</span>
+      <span>{{ duration | duration }}</span>
     </div>
   </div>
 </template>
@@ -31,26 +33,40 @@ export default {
 <style scoped lang='scss'>
   @import '~@/styles/constants';
 
-  input[type=range] {
-    width: 100%;
-  }
-
   .track-progress {
     position: relative;
 
-    > *:first-child {
-      z-index: 1;
-    }
-
     > div:last-child {
-      position: absolute;
       z-index: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
       display: flex;
       justify-content: space-between;
-      font-size: 14px;
+      font-size: 13px;
+      margin-top: -6px;
+    }
+  }
+
+  .slider {
+    width: 100%;
+    height: 24px;
+
+    &:before, span {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      top: 12px;
+      z-index: 0;
+      height: 2px;
+      border-radius: 6px;
+    }
+
+    &:before {
+      content: '';
+      right: 0;
+      background: rgba($black, 0.2);
+    }
+
+    span {
+      background: $black;
     }
   }
 </style>

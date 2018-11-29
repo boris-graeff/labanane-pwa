@@ -16,6 +16,8 @@
       position: relative;
       z-index: 1;
       margin: 0;
+      height: 100%;
+      cursor: pointer;
     }
   }
 

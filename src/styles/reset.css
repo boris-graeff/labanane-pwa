@@ -38,6 +38,10 @@ button {
   cursor: pointer;
 }
 
+button:focus {
+  outline: none;
+}
+
 img {
   max-width: 100%;
 }

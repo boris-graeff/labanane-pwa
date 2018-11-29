@@ -8,20 +8,24 @@
                     :currentTime="currentTime"
                     @seekTo="seekTo"/>
     <div class="bottom">
-      <div>{{ track.name }}</div>
+      <div class="left">{{ track.name }}</div>
 
-      <div>
-        <button type="button" @click="setPreviousTrack(isShuffleMode)" class="previous" />
+      <div class="center">
+        <button type="button" @click="setPreviousTrack(isShuffleMode)">
+          <img src="~@/assets/icn-previous.svg" />
+        </button>
 
         <toggle-button :on="isPlaying" @click.native="togglePlaying">
           <img src="~@/assets/icn-play.svg" />
           <img src="~@/assets/icn-pause.svg" />
         </toggle-button>
 
-        <button type="button" @click="setNextTrack(isShuffleMode)" class="next" />
+        <button type="button" @click="setNextTrack(isShuffleMode)">
+          <img src="~@/assets/icn-next.svg" />
+        </button>
       </div>
 
-      <div>
+      <div class="right">
         <toggle-button :on="isShuffleMode" @click.native="isShuffleMode = !isShuffleMode">
           <img src="~@/assets/icn-shuffle.svg" />
           <img src="~@/assets/icn-baseline.svg" />
@@ -46,7 +50,7 @@ export default {
     return {
       isShuffleMode: false,
       isPlaying: false,
-      currentTime: 0,
+      currentTime: 500,
       duration: 0,
       volume: 50
     }
@@ -92,8 +96,7 @@ export default {
     onEnded () {
       this.next()
     },
-    seekTo (event) {
-      const { value } = event.target
+    seekTo (value) {
       this.$refs.player.seekTo(value)
     },
     ...mapActions('track', {
@@ -123,17 +126,42 @@ export default {
     bottom: 0;
     z-index: 1000;
     padding: 0 $space-small $space-small;
+
+    /deep/ {
+      button:hover {
+        background: rgba($black, 0.05);
+      }
+    }
   }
 
   .bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
 
-    > div {
-      display: flex;
-      align-items: center;
-    }
+  .left, .center, .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .left, .right {
+    flex: 1;
+  }
+
+  .center {
+    min-width: 144px;
+  }
+
+  .left {
+    font-size: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .right {
+    justify-content: flex-end;
   }
 
   button {
@@ -141,19 +169,12 @@ export default {
     height: 48px;
     display: block;
     padding: 0;
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-size: 40px;
-    background-position: center center;
+    background: transparent;
     position: relative;
     border: 0;
 
-    &.next {
-      background-image: url('~@/assets/icn-next.svg');
-    }
-
-    &.previous {
-      background-image: url('~@/assets/icn-previous.svg');
+    > img {
+      width: 32px;
     }
   }
 </style>
