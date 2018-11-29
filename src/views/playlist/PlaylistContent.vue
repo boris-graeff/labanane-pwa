@@ -1,6 +1,10 @@
 <template>
-<div class="playlist-content">
-    <span>{{ playlistDuration | duration }}</span>
+  <div class="playlist-content">
+    <div class='infos' v-show='tracks.length > 1'>
+      <span>{{ tracks.length }} tracks</span>
+      <span>{{ playlistDuration | duration }}</span>
+    </div>
+
     <h1>{{ name }}</h1>
 
     <app-list class="tracks" @dragover.prevent @drop='onDropEnd'>
@@ -64,6 +68,23 @@ export default {
     h1 {
       font-size: 40px;
       font-weight: 300;
+      margin: $space-small;
+    }
+  }
+
+  .infos {
+    display: inline-block;
+    font-size: 16px;
+    vertical-align: top;
+    border: 1px solid rgba($black, 0.1);
+
+    span {
+      padding: 2px 4px;
+      display: inline-block;
+
+      &:first-child {
+        background: rgba($black, 0.1);
+      }
     }
   }
 
