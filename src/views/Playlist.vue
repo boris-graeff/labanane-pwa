@@ -100,10 +100,15 @@ export default {
 
   .home {
     position: fixed;
-    top: 6px;
-    left: 6px;
+    top: $space-small;
+    left: $space-small;
     width: 40px;
     height: 40px;
+    transition: transform 300ms ease-in-out;
+
+    &:hover {
+      transform: rotate(360deg);
+    }
   }
 
   .content {
