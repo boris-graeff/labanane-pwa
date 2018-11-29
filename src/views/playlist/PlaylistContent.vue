@@ -55,6 +55,9 @@ export default {
   @import '~@/styles/constants';
 
   .playlist-content {
+    position: relative;
+    background-color: rgba($wheat, .15);
+    min-height: 100vh;
     padding-top: 40px;
     padding-left: 60px;
 

@@ -1,5 +1,5 @@
 import { getAllPlaylists, createPlaylist } from '@/api/app'
-import { savePasswordInLocalStorage } from '@/helpers/localStorage'
+import { savePasswordInLocalStorage } from '@/helpers/localStorage'
 
 const SET_PLAYLISTS = 'SET_PLAYLISTS'
 
@@ -17,10 +17,10 @@ export default {
 
   actions: {
     async getAll ({ commit }) {
-      const { data }= await getAllPlaylists()
+      const { data } = await getAllPlaylists()
       commit(SET_PLAYLISTS, data.sort((a, b) => b.timestamp - a.timestamp))
     },
-    async create ({ commit }, payload) {
+    async create ({ commit }, payload) {
       const { data } = await createPlaylist(payload)
       const { id } = data
       savePasswordInLocalStorage(id, payload.password)

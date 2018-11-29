@@ -40,7 +40,8 @@ export default {
   },
   async created () {
     try {
-      await Promise.all([this.getPlaylist(this.playlistId), this.checkPassword(this.playlistId)])
+      const { playlistId: id } = this
+      await Promise.all([this.getPlaylist(id), this.checkPassword({ id })])
       this.expandActionsPanel = !this.tracks.length
     } finally {
       this.isLoading = false
@@ -126,9 +127,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding-right: 6px;
+    padding: 0 6px;
 
-    h2 {
+    /deep/ h2 {
       font-size: 30px;
       font-weight: 300;
     }
@@ -136,8 +137,5 @@ export default {
 
   .playlist-content {
     width: 80%;
-    position: relative;
-    background-color: rgba($wheat, .15);
-    min-height: 100vh;
   }
 </style>

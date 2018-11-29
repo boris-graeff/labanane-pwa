@@ -68,7 +68,6 @@ export default {
   }
 
   .button {
-    height: 40px;
     min-width: 200px;
     margin-left: $space-medium;
   }

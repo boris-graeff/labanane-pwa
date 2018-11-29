@@ -1,5 +1,5 @@
 import { getPlaylist, checkPlaylistPassword, updatePlaylist } from '@/api/app'
-import { getPasswordFromLocalStorage } from '@/helpers/localStorage'
+import { getPasswordFromLocalStorage, savePasswordInLocalStorage } from '@/helpers/localStorage'
 
 const SET_PLAYLIST = 'SET_PLAYLIST'
 const IS_PLAYLIST_OWNER = 'IS_PLAYLIST_OWNER'
@@ -58,10 +58,13 @@ export default {
       store.commit(SET_PLAYLIST, { id, ...data })
     },
 
-    async checkPassword (store, id) {
-      const password = getPasswordFromLocalStorage(id)
+    async checkPassword (store, { id, password }) {
+      if (!password) password = getPasswordFromLocalStorage(id)
+
       const { data: isOwner } = await checkPlaylistPassword({ id, password })
       store.commit(IS_PLAYLIST_OWNER, { isOwner, password })
+
+      if (isOwner) savePasswordInLocalStorage(id, password)
     },
 
     async addTrack (store, { track, index }) {
