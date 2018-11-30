@@ -4,6 +4,7 @@ import playlists from './modules/playlists'
 import playlist from './modules/playlist'
 import track from './modules/track'
 import search from './modules/search'
+import player from './modules/player'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     playlists,
     playlist,
     track,
-    search
+    search,
+    player
   }
 })

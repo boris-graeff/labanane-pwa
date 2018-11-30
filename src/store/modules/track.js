@@ -24,12 +24,14 @@ export default {
       commit(SET_TRACK_INFOS, track)
     },
 
-    setNextTrack (store, isShuffleMode) {
+    setNextTrack (store) {
+      const { isShuffleMode } = store.rootState.player
       const nextTrack = store.rootGetters['playlist/getNextTrack'](store.state.infos, isShuffleMode)
       store.commit(SET_TRACK_INFOS, nextTrack)
     },
 
-    setPreviousTrack (store, isShuffleMode) {
+    setPreviousTrack (store) {
+      const { isShuffleMode } = store.rootState.player
       const previousTrack = store.rootGetters['playlist/getPreviousTrack'](store.state.infos, isShuffleMode)
       store.commit(SET_TRACK_INFOS, previousTrack)
     }

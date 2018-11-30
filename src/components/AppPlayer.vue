@@ -12,7 +12,7 @@
       <div class="left">{{ track.name }}</div>
 
       <div class="center">
-        <button type="button" @click="setPreviousTrack(isShuffleMode)">
+        <button type="button" @click="setPreviousTrack()">
           <img src="~@/assets/icn-previous.svg" />
         </button>
 
@@ -21,15 +21,15 @@
           <img src="~@/assets/icn-pause.svg" />
         </toggle-button>
 
-        <button type="button" @click="setNextTrack(isShuffleMode)">
+        <button type="button" @click="setNextTrack()">
           <img src="~@/assets/icn-next.svg" />
         </button>
       </div>
 
       <div class="right">
-        <toggle-button :on="isShuffleMode" @click.native="isShuffleMode = !isShuffleMode">
-          <img src="~@/assets/icn-shuffle.svg" />
-          <img src="~@/assets/icn-baseline.svg" />
+        <toggle-button :on="isShuffleMode" @click.native="setShuffleMode(!isShuffleMode)">
+          <img src="~@/assets/icn-baseline.svg" title="Classic play" />
+          <img src="~@/assets/icn-shuffle.svg" title="Shuffle play"/>
         </toggle-button>
 
         <volume-slider v-model="volume" />
@@ -49,7 +49,6 @@ import VolumeSlider from './VolumeSlider'
 export default {
   data () {
     return {
-      isShuffleMode: false,
       isPlaying: false,
       currentTime: 500,
       volume: 100
@@ -58,6 +57,9 @@ export default {
   computed: {
     ...mapState('track', {
       track: ({ infos }) => infos
+    }),
+    ...mapState('player', {
+      isShuffleMode: ({ isShuffleMode }) => isShuffleMode
     })
   },
   mounted () {
@@ -98,9 +100,10 @@ export default {
     seekTo (value) {
       this.$refs.player.seekTo(value / 1000)
     },
-    ...mapActions('track', {
-      setNextTrack: 'setNextTrack',
-      setPreviousTrack: 'setPreviousTrack'
+    ...mapActions({
+      setNextTrack: 'track/setNextTrack',
+      setPreviousTrack: 'track/setPreviousTrack',
+      setShuffleMode: 'player/setShuffleMode'
     })
   },
   components: {

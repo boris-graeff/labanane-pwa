@@ -87,8 +87,7 @@ export default {
       const trackToRemove = store.state.tracks[index]
       const currentSelectedTrack = store.rootState.track.infos
       if (trackToRemove.id === currentSelectedTrack.id) {
-        const isShuffleMode = false // TODO
-        store.dispatch('track/setNextTrack', isShuffleMode, { root: true })
+        store.dispatch('track/setNextTrack', null, { root: true })
       }
       store.commit(REMOVE_TRACK, index)
       updatePlaylist(store.state)
@@ -96,14 +95,16 @@ export default {
   },
 
   getters: {
-    getNextTrack: ({ tracks }) => (currentTrack, isShuffleMode) => {
+    getNextTrack: ({ tracks }, getters, rootState) => currentTrack => {
+      const { isShuffleMode } = rootState.player
       if (isShuffleMode) return tracks[getRandomIndex(tracks)]
 
       const currentIndex = getCurrentIndex(tracks, currentTrack.id)
       return tracks[getNextIndex(tracks, currentIndex)]
     },
 
-    getPreviousTrack: ({ tracks }) => (currentTrack, isShuffleMode) => {
+    getPreviousTrack: ({ tracks }, getters, rootState) => (currentTrack) => {
+      const { isShuffleMode } = rootState.player
       if (isShuffleMode) return tracks[getRandomIndex(tracks)]
 
       const currentIndex = getCurrentIndex(tracks, currentTrack.id)
