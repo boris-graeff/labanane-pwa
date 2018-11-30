@@ -31,7 +31,7 @@ import TrackSearch from './playlist/TrackSearch'
 import AuthForm from './playlist/AuthForm'
 
 export default {
-  props: ['playlistId'],
+  props: ['playlistId', 'trackId'],
   data () {
     return {
       isLoading: true,
@@ -40,23 +40,39 @@ export default {
   },
   async created () {
     try {
-      const { playlistId: id } = this
+      const { playlistId: id, trackId } = this
       await Promise.all([this.getPlaylist(id), this.checkPassword({ id })])
       this.expandActionsPanel = !this.tracks.length
+
+      document.title = this.name
+
+      if (trackId) this.setTrack(this.tracks.find(track => track.id === trackId))
     } finally {
       this.isLoading = false
+    }
+  },
+  watch: {
+    'track.id' () {
+      const { id } = this.track
+      this.$router.replace({ name: 'playlist', params: { trackId: id } })
+      document.title = this.track.name
     }
   },
   computed: {
     ...mapState('playlist', {
       tracks: ({ tracks }) => tracks,
-      isOwner: ({ isOwner }) => isOwner
+      isOwner: ({ isOwner }) => isOwner,
+      name: ({ name }) => name
+    }),
+    ...mapState('track', {
+      track: ({ infos }) => infos
     })
   },
   methods: {
-    ...mapActions('playlist', {
-      getPlaylist: 'getPlaylist',
-      checkPassword: 'checkPassword'
+    ...mapActions({
+      getPlaylist: 'playlist/getPlaylist',
+      checkPassword: 'playlist/checkPassword',
+      setTrack: 'track/setTrack'
     })
   },
   components: {

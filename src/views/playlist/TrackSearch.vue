@@ -37,6 +37,9 @@ export default {
       results: ({ results }) => results
     })
   },
+  created () {
+    this.reset()
+  },
   methods: {
     onChange: debounce(function () {
       try {
@@ -53,6 +56,7 @@ export default {
 
     ...mapActions({
       searchTracks: 'search/searchTracks',
+      reset: 'search/reset',
       addTrack: 'playlist/addTrack'
     })
   },

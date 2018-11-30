@@ -40,6 +40,9 @@ export default {
   },
 
   actions: {
+    reset (store) {
+      store.commit(SET_RESULTS, [])
+    },
     async searchTracks (store, keywords) {
       if (!keywords.length) store.commit(SET_RESULTS, [])
 
