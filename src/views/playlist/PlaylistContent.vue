@@ -7,13 +7,17 @@
 
     <h1>{{ name }}</h1>
 
-    <app-list class="tracks" @dragover.prevent @drop='onDropEnd'>
+    <app-list class="tracks" @dragover.native.prevent @drop.native='onDropEnd'>
       <tracklist-item v-for="(track, index) in tracks"
                       :key="track.id"
                       :index="index"
                       :track="track"
                       :isOwner="isOwner"
                       :class="{selected: track.id === currentTrack.id}"
+                      @dragover.native.prevent
+                      @drop.native.stop='onDrop(index, $event)'
+                      @dragstart.native='onDragStart(track, index, $event)'
+                      :draggable='isOwner'
                       @click.native="setTrack(track)" />
     </app-list>
   </div>
@@ -43,9 +47,19 @@ export default {
       const track = JSON.parse(event.dataTransfer.getData('track'))
       track.id ? this.moveTrack({ track }) : this.addTrack({ track })
     },
+    onDrop (index, event) {
+      const track = JSON.parse(event.dataTransfer.getData('track'))
+      track.id ? this.moveTrack({ track, index }) : this.addTrack({ track, index: index + 1 })
+    },
+    onDragStart (track, index, event) {
+      track.index = index
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.setData('track', JSON.stringify(track))
+    },
     ...mapActions({
       setTrack: 'track/setTrack',
-      addTrack: 'playlist/addTrack'
+      addTrack: 'playlist/addTrack',
+      moveTrack: 'playlist/moveTrack'
     })
   },
   components: {

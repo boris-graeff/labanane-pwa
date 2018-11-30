@@ -8,6 +8,7 @@ const SET_PLAYLIST = 'SET_PLAYLIST'
 const IS_PLAYLIST_OWNER = 'IS_PLAYLIST_OWNER'
 const ADD_TRACK = 'ADD_TRACK'
 const REMOVE_TRACK = 'REMOVE_TRACK'
+const MOVE_TRACK = 'MOVE_TRACK'
 
 const getCurrentIndex = (tracks, currentTrackId) =>
   tracks.findIndex(track => track.id === currentTrackId)
@@ -52,6 +53,12 @@ export default {
     },
     [REMOVE_TRACK] (state, index) {
       state.tracks.splice(index, 1)
+    },
+    [MOVE_TRACK] (state, { track, index }) {
+      state.tracks.splice(track.index, 1)
+
+      if (index !== undefined) state.tracks.splice(index, 0, track)
+      else state.tracks.push(track)
     }
   },
 
@@ -91,6 +98,10 @@ export default {
       }
       store.commit(REMOVE_TRACK, index)
       updatePlaylist(store.state)
+    },
+
+    moveTrack (store, { track, index }) {
+      store.commit(MOVE_TRACK, { track, index })
     }
   },
 
