@@ -4,32 +4,50 @@
     v-on="$listeners"
     :src="track.url"
     autoplay
+    :volume="volume / 100"
+    @play="play"
+    @timeupdate="onTimeUpdate"
+    @ended="onEnded"
     ref="player"
   />
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
+  watch: {
+    isPlaying () {
+      if (this.isPlaying) this.$refs.player.play()
+      else this.$refs.player.pause()
+    },
+    seekTo () {
+      this.$refs.player.currentTime = this.seekTo / 1000
+    }
+  },
+  methods: {
+    onTimeUpdate (event) {
+      const { currentTime } = event.target
+      this.setCurrentTime(currentTime * 1000)
+    },
+    onEnded () {
+      this.setNextTrack()
+    },
+    ...mapActions({
+      setNextTrack: 'track/setNextTrack',
+      setCurrentTime: 'player/setCurrentTime',
+      play: 'player/play'
+    })
+  },
   computed: {
+    ...mapState('player', {
+      isPlaying: ({ isPlaying }) => isPlaying,
+      volume: ({ volume }) => volume,
+      seekTo: ({ seekTo }) => seekTo
+    }),
     ...mapState('track', {
       track: ({ infos }) => infos
     })
-  },
-  methods: {
-    play () {
-      this.$refs.player.play()
-    },
-    pause () {
-      this.$refs.player.pause()
-    },
-    setVolume (volume) {
-      this.$refs.player.volume = volume / 100
-    },
-    seekTo (position) {
-      this.$refs.player.currentTime = position
-    }
   }
 }
 </script>

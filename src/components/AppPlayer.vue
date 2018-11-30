@@ -1,8 +1,6 @@
 <template>
   <div class="player" v-show="true || track.id">
-    <audio-player ref="player"
-                  @timeupdate="onTimeUpdate"
-                  @ended="onEnded" />
+    <audio-player />
 
     <track-progress :duration="track.duration"
                     :currentTime="currentTime"
@@ -16,7 +14,7 @@
           <img src="~@/assets/icn-previous.svg" />
         </button>
 
-        <toggle-button :on="isPlaying" @click.native="togglePlaying">
+        <toggle-button :on="isPlaying" @click.native="isPlaying ? pause() : play()">
           <img src="~@/assets/icn-play.svg" />
           <img src="~@/assets/icn-pause.svg" />
         </toggle-button>
@@ -32,7 +30,7 @@
           <img src="~@/assets/icn-shuffle.svg" title="Shuffle play"/>
         </toggle-button>
 
-        <volume-slider v-model="volume" />
+        <volume-slider :value="volume" @input="setVolume($event)"/>
       </div>
     </div>
   </div>
@@ -47,19 +45,15 @@ import TrackProgress from './TrackProgress'
 import VolumeSlider from './VolumeSlider'
 
 export default {
-  data () {
-    return {
-      isPlaying: false,
-      currentTime: 500,
-      volume: 100
-    }
-  },
   computed: {
     ...mapState('track', {
       track: ({ infos }) => infos
     }),
     ...mapState('player', {
-      isShuffleMode: ({ isShuffleMode }) => isShuffleMode
+      isShuffleMode: ({ isShuffleMode }) => isShuffleMode,
+      isPlaying: ({ isPlaying }) => isPlaying,
+      volume: ({ volume }) => volume,
+      currentTime: ({ currentTime }) => currentTime
     })
   },
   mounted () {
@@ -72,9 +66,6 @@ export default {
     }
   },
   watch: {
-    volume () {
-      this.$refs.player.setVolume(this.volume)
-    },
     track () {
       if ('mediaSession' in navigator) {
         // eslint-disable-next-line
@@ -85,25 +76,14 @@ export default {
     }
   },
   methods: {
-    togglePlaying () {
-      this.isPlaying = !this.isPlaying
-      if (this.isPlaying) this.$refs.player.play()
-      else this.$refs.player.pause()
-    },
-    onTimeUpdate (event) {
-      const { currentTime } = event.target
-      this.currentTime = currentTime * 1000
-    },
-    onEnded () {
-      this.setNextTrack()
-    },
-    seekTo (value) {
-      this.$refs.player.seekTo(value / 1000)
-    },
     ...mapActions({
       setNextTrack: 'track/setNextTrack',
       setPreviousTrack: 'track/setPreviousTrack',
-      setShuffleMode: 'player/setShuffleMode'
+      setShuffleMode: 'player/setShuffleMode',
+      play: 'player/play',
+      pause: 'player/pause',
+      setVolume: 'player/setVolume',
+      seekTo: 'player/seekTo'
     })
   },
   components: {
