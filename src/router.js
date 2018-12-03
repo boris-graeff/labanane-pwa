@@ -18,6 +18,12 @@ export default new Router({
       name: 'playlist',
       component: Playlist,
       props: true
+    },
+    {
+      path: '*',
+      redirect: {
+        name: 'home'
+      }
     }
   ]
 })
