@@ -4,7 +4,6 @@
     v-on="$listeners"
     :src="track.url"
     autoplay
-    :volume="volume / 100"
     @play="play"
     @timeupdate="onTimeUpdate"
     @ended="onEnded"
@@ -23,6 +22,9 @@ export default {
     },
     seekTo () {
       this.$refs.player.currentTime = this.seekTo / 1000
+    },
+    volume () {
+      this.$refs.player.volume = this.volume / 100
     }
   },
   methods: {

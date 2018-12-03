@@ -1,5 +1,5 @@
 <template>
-  <div class="player" v-show="true || track.id">
+  <div class="player" v-show="track.id">
     <audio-player />
 
     <track-progress :duration="track.duration"
