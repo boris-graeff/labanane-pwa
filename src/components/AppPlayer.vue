@@ -7,7 +7,9 @@
                     @seekTo="seekTo"/>
 
     <div class="bottom">
-      <div class="left">{{ track.name }}</div>
+      <div class="left">
+        <div class="track-name">{{ track.name }}</div>
+      </div>
 
       <div class="center">
         <button type="button" @click="setPreviousTrack()">
@@ -30,7 +32,7 @@
           <img src="~@/assets/icn-shuffle.svg" title="Shuffle play"/>
         </toggle-button>
 
-        <volume-slider :value="volume" @input="setVolume($event)"/>
+        <volume-slider class="volume-slider" :value="volume" @input="setVolume($event)"/>
       </div>
     </div>
   </div>
@@ -115,6 +117,10 @@ export default {
         background: rgba($black, 0.05);
       }
     }
+
+    > .track-name {
+      display: none;
+    }
   }
 
   .bottom {
@@ -136,7 +142,7 @@ export default {
     min-width: 144px;
   }
 
-  .left {
+  .track-name {
     font-size: 20px;
     overflow: hidden;
     white-space: nowrap;
@@ -158,6 +164,16 @@ export default {
 
     > img {
       width: 32px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .volume-slider {
+      display: none;
+    }
+
+    .left .track-name {
+      display: none;
     }
   }
 </style>

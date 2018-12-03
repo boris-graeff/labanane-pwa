@@ -121,6 +121,7 @@ export default {
     width: 40px;
     height: 40px;
     transition: transform 300ms ease-in-out;
+    z-index: 1;
 
     &:hover {
       transform: rotate(360deg);
@@ -158,5 +159,17 @@ export default {
 
   .playlist-content {
     width: 80%;
+  }
+
+  @media screen and (max-width: 600px) {
+    .playlist, .playlist.expanded {
+      .playlist-content {
+        width: 100%;
+      }
+
+      .actions-panel {
+        display: none;
+      }
+    }
   }
 </style>

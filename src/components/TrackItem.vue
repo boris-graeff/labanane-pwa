@@ -1,6 +1,6 @@
 <template>
   <li :class='track.provider'>
-    <div>
+    <div role='button'>
       <slot></slot>
     </div>
   </li>
