@@ -60,8 +60,8 @@ export default {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.playbackState = 'paused'
       navigator.mediaSession.setActionHandler('previoustrack', this.setPreviousTrack)
-      navigator.mediaSession.setActionHandler('play', () => {})
-      navigator.mediaSession.setActionHandler('pause', () => {})
+      navigator.mediaSession.setActionHandler('play', this.play)
+      navigator.mediaSession.setActionHandler('pause', this.pause)
       navigator.mediaSession.setActionHandler('nexttrack', this.setNextTrack)
     }
   },
@@ -70,7 +70,8 @@ export default {
       if ('mediaSession' in navigator) {
         // eslint-disable-next-line
         navigator.mediaSession.metadata = new MediaMetadata({
-          title: this.track.name
+          title: this.track.name,
+          artwork: [{ src: this.track.artwork }]
         })
       }
     }
