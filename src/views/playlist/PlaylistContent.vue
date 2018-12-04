@@ -78,11 +78,12 @@ export default {
     min-height: 100vh;
     padding-top: 40px;
     padding-left: 60px;
+    padding-bottom: $player-height;
 
     h1 {
       font-size: 40px;
       font-weight: 300;
-      margin: $space-small;
+      margin: $space-small 0;
     }
   }
 
@@ -103,6 +104,12 @@ export default {
   }
 
   .tracks {
-    min-height: 100vh;
+    min-height: calc(100vh - 180px);
+  }
+
+  @media screen and (max-width: 600px) {
+    .playlist-content h1{
+      font-size: 26px;
+    }
   }
 </style>

@@ -85,5 +85,6 @@ export default {
     overflow-x: hidden;
     flex: 1;
     margin-right: -21px;
+    padding-bottom: $player-height;
   }
 </style>

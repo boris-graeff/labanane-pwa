@@ -165,6 +165,7 @@ export default {
     .playlist, .playlist.expanded {
       .playlist-content {
         width: 100%;
+        padding-left: 36px;
       }
 
       .actions-panel {

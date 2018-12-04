@@ -3,10 +3,10 @@
     crossOrigin="anonymous"
     v-on="$listeners"
     :src="track.url"
-    autoplay
     @play="play"
     @timeupdate="onTimeUpdate"
     @ended="onEnded"
+    @canplay="canPlay"
     ref="player"
   />
 </template>
@@ -28,6 +28,10 @@ export default {
     }
   },
   methods: {
+    canPlay () {
+      console.log('can play')
+      this.$refs.player.play()
+    },
     onTimeUpdate (event) {
       const { currentTime } = event.target
       this.setCurrentTime(currentTime * 1000)
