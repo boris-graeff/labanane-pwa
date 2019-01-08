@@ -94,7 +94,7 @@ export default {
     border: 1px solid rgba($black, 0.1);
 
     span {
-      padding: 2px 4px;
+      padding: 3px 4px;
       display: inline-block;
 
       &:first-child {

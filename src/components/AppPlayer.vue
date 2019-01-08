@@ -136,6 +136,7 @@ export default {
 
   .left, .right {
     flex: 1;
+    overflow: hidden;
   }
 
   .center {
