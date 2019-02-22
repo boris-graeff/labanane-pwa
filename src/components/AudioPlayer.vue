@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     canPlay () {
-      console.log('can play')
       this.$refs.player.play()
     },
     onTimeUpdate (event) {
