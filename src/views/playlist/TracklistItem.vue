@@ -1,11 +1,11 @@
 <template>
-  <track-item :track="track" class="track-item">
+  <track-item :track="track" class="track-item" :class="{ error: track.error }">
     <span class="index">{{ index + 1 }}</span>
     <div>
       <span class="provider" :class="`${track.provider}`"/>
       <div class="content">
         <span class="name">{{ track.name }}</span>
-
+        <span v-if="track.error">Unavailabe</span>
         <div>
           <span class="duration">{{ track.duration | duration }}</span>
 
@@ -53,6 +53,15 @@ export default {
     &:hover button {
       opacity: 1;
       transform: scale(1) rotate(90deg);
+    }
+
+    &.error {
+      opacity: 0.5;
+      pointer-events: none;
+
+      .name {
+        text-decoration: line-through;
+      }
     }
   }
 

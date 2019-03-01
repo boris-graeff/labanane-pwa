@@ -9,6 +9,7 @@ const IS_PLAYLIST_OWNER = 'IS_PLAYLIST_OWNER'
 const ADD_TRACK = 'ADD_TRACK'
 const REMOVE_TRACK = 'REMOVE_TRACK'
 const MOVE_TRACK = 'MOVE_TRACK'
+const SET_TRACK_ERROR = 'SET_TRACK_ERROR'
 
 const getCurrentIndex = (tracks, currentTrackId) =>
   tracks.findIndex(track => track.id === currentTrackId)
@@ -59,6 +60,10 @@ export default {
 
       if (index !== undefined) state.tracks.splice(index, 0, track)
       else state.tracks.push(track)
+    },
+    [SET_TRACK_ERROR] (state, track) {
+      const index = state.tracks.findIndex(t => t.id === track.id)
+      state.tracks[index] = { error: true, ...track }
     }
   },
 
@@ -102,6 +107,12 @@ export default {
 
     moveTrack (store, { track, index }) {
       store.commit(MOVE_TRACK, { track, index })
+    },
+
+    setTrackError (store) {
+      const track = store.rootState.track.infos
+      store.commit(SET_TRACK_ERROR, track)
+      console.log(store)
     }
   },
 

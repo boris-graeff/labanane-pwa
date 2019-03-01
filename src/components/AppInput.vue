@@ -4,13 +4,14 @@
       <span>{{ label }}</span>
 
       <input :type="type" :value="value" @input="$emit('input', $event.target.value)" />
+      <div v-if="error" class="error">{{ error }}</div>
     </label>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['label', 'type', 'value']
+  props: ['label', 'type', 'value', 'error']
 }
 </script>
 
@@ -39,5 +40,12 @@ export default {
       height: 40px;
       width: 100%;
     }
+  }
+
+  .error {
+    padding: 10px;
+    background-color: rgba($black, 0.2);
+    font-size: 14px;
+    margin-top: 3px;
   }
 </style>

@@ -7,6 +7,7 @@
     @timeupdate="onTimeUpdate"
     @ended="onEnded"
     @canplay="canPlay"
+    @error="onError"
     ref="player"
   />
 </template>
@@ -38,10 +39,15 @@ export default {
     onEnded () {
       this.setNextTrack()
     },
+    onError () {
+      this.setTrackError()
+      this.setNextTrack()
+    },
     ...mapActions({
       setNextTrack: 'track/setNextTrack',
       setCurrentTime: 'player/setCurrentTime',
-      play: 'player/play'
+      play: 'player/play',
+      setTrackError: 'playlist/setTrackError'
     })
   },
   computed: {

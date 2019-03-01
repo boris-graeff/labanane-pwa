@@ -2,7 +2,7 @@
   <form @submit.prevent="onSubmit" class="playlist-form">
 
     <h2>Create your playlist now !</h2>
-    <app-input type="text" :value="name" @input="slugifyName" label="Name" />
+    <app-input type="text" :value="name" @input="slugifyName" label="Name" :error="error"/>
     <div>
       <app-input type="password" v-model="password" label="Password" />
       <app-button type="submit" class="button">Create</app-button>
@@ -20,7 +20,13 @@ export default {
   data () {
     return {
       name: '',
-      password: ''
+      password: '',
+      error: ''
+    }
+  },
+  watch: {
+    name () {
+      this.error = ''
     }
   },
   methods: {
@@ -31,7 +37,7 @@ export default {
         const playlistId = await this.createPlaylist({ name, password })
         this.$router.push({ name: 'playlist', params: { playlistId } })
       } catch (e) {
-        // TODO handle error
+        this.error = 'Sorry, this name is already taken :('
       }
     },
     slugifyName (name) {

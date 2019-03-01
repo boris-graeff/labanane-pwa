@@ -5,7 +5,7 @@
       <p>Please enter playlist password</p>
 
       <div>
-        <app-input label="Password" type="password" v-model="password" />
+        <app-input label="Password" type="password" v-model="password" :error="error"/>
         <app-button type="submit">Go</app-button>
       </div>
     </div>
@@ -20,7 +20,13 @@ import AppButton from '@/components/AppButton'
 export default {
   data () {
     return {
-      password: ''
+      password: '',
+      error: ''
+    }
+  },
+  watch: {
+    password () {
+      this.error = ''
     }
   },
   methods: {
@@ -28,11 +34,12 @@ export default {
       const { id, password } = this
       try {
         await this.checkPassword({ id, password })
+        console.log(this.isOwner)
         if (!this.isOwner) {
-          // TODO handle fail
+          this.error = 'Bad password ! :p'
         }
       } catch (e) {
-        // TODO handle error
+        this.error = 'Oops something happened ! :S'
       }
     },
     ...mapActions('playlist', {
