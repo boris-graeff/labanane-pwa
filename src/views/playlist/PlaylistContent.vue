@@ -5,7 +5,13 @@
       <span>{{ playlistDuration | duration }}</span>
     </div>
 
-    <h1>{{ name }}</h1>
+    <div>
+      <toggle-button @click.native="$emit('toggleActionsPanel')" :on="expandActionsPanel" >
+        <img src="~@/assets/icn-edit.svg" />
+        <img src="~@/assets/icn-cross.svg" />
+      </toggle-button>
+      <h1>{{ name }}</h1>
+    </div>
 
     <app-list class="tracks" @dragover.native.prevent @drop.native='onDropEnd'>
       <tracklist-item v-for="(track, index) in tracks"
@@ -26,9 +32,11 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import AppList from '@/components/AppList'
+import ToggleButton from '@/components/ToggleButton'
 import TracklistItem from './TracklistItem'
 
 export default {
+  props: ['expandActionsPanel'],
   computed: {
     ...mapState('playlist', {
       tracks: ({ tracks }) => tracks,
@@ -64,7 +72,8 @@ export default {
   },
   components: {
     AppList,
-    TracklistItem
+    TracklistItem,
+    ToggleButton
   }
 }
 </script>
@@ -76,7 +85,7 @@ export default {
     position: relative;
     background-color: rgba($wheat, .15);
     min-height: 100vh;
-    padding-top: 40px;
+    padding-top: 30px;
     padding-left: 60px;
     padding-bottom: $player-height;
 
@@ -84,6 +93,16 @@ export default {
       font-size: 40px;
       font-weight: 300;
       margin: $space-small 0;
+    }
+
+    > div:nth-child(2) {
+      display: flex;
+      align-items: center;
+
+      > button {
+        margin: 6px 6px 6px 0;
+        display: none;
+      }
     }
   }
 
@@ -108,8 +127,16 @@ export default {
   }
 
   @media screen and (max-width: 600px) {
-    .playlist-content h1{
-      font-size: 26px;
+    .playlist-content {
+      h1 {
+        font-size: 26px;
+      }
+
+      > div:nth-child(2) {
+        > button {
+          display: block;
+        }
+      }
     }
   }
 </style>

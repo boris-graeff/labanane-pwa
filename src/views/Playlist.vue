@@ -18,7 +18,9 @@
         <auth-form v-if="!isOwner && expandActionsPanel" />
       </div>
 
-      <playlist-content class="playlist-content" />
+      <playlist-content class="playlist-content"
+                        :expandActionsPanel="expandActionsPanel"
+                        @toggleActionsPanel="expandActionsPanel = !expandActionsPanel"/>
     </div>
   </div>
 </template>
@@ -145,15 +147,21 @@ export default {
     height: 100vh;
     width: 20%;
     left: 0;
-    top: 60px;
+    top: 68px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding: 0 6px;
+    padding: 20px 6px 0;
 
     /deep/ h2 {
       font-size: 30px;
       font-weight: 300;
+    }
+
+    > button {
+      position: absolute;
+      top: 0;
+      right: 6px;
     }
   }
 
@@ -166,10 +174,42 @@ export default {
       .playlist-content {
         width: 100%;
         padding-left: 36px;
+        transition: filter 300ms ease;
+        will-change: filter;
       }
 
       .actions-panel {
-        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(45deg, #FFAFBD 0%, #F4D03F 100%);
+        z-index: 1;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        will-change: transform;
+        opacity: 0.9;
+        transition: transform 300ms ease;
+        padding-top: 40px;
+
+        > button {
+          top: 20px;
+          right: 8px;
+        }
+      }
+    }
+
+    .playlist.expanded {
+      .content {
+        height: 100vh;
+      }
+
+      .playlist-content {
+        filter: blur(3px);
+      }
+
+      .actions-panel {
+        transform: translateX(0);
       }
     }
   }

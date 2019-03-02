@@ -112,7 +112,6 @@ export default {
     setTrackError (store) {
       const track = store.rootState.track.infos
       store.commit(SET_TRACK_ERROR, track)
-      console.log(store)
     }
   },
 

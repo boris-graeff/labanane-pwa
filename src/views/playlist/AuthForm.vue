@@ -34,7 +34,7 @@ export default {
       const { id, password } = this
       try {
         await this.checkPassword({ id, password })
-        console.log(this.isOwner)
+
         if (!this.isOwner) {
           this.error = 'Bad password ! :p'
         }
