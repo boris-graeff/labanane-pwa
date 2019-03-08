@@ -4,15 +4,25 @@
       <router-view />
     </div>
     <app-player />
+    <players-manager />
+
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AppPlayer from '@/components/AppPlayer'
+import PlayersManager from '@/components/PlayersManager'
 
 export default {
+  computed: {
+    ...mapState('app', {
+      isDesktopBrowser: ({ isDesktopBrowser }) => isDesktopBrowser
+    })
+  },
   components: {
-    AppPlayer
+    AppPlayer,
+    PlayersManager
   }
 }
 </script>

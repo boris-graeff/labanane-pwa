@@ -1,7 +1,5 @@
 <template>
   <div class="player" v-show="track.id">
-    <audio-player />
-
     <track-progress :duration="track.duration"
                     :currentTime="currentTime"
                     @seekTo="seekTo"/>
@@ -42,7 +40,6 @@
 import { mapState, mapActions } from 'vuex'
 import ToggleButton from '@/components/ToggleButton'
 import AppCheckbox from '@/components/AppCheckbox'
-import AudioPlayer from './AudioPlayer'
 import TrackProgress from './TrackProgress'
 import VolumeSlider from './VolumeSlider'
 
@@ -91,7 +88,6 @@ export default {
   },
   components: {
     TrackProgress,
-    AudioPlayer,
     VolumeSlider,
     ToggleButton,
     AppCheckbox
